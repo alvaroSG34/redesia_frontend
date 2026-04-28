@@ -234,6 +234,8 @@ async function apiFetch<T>(
   const url = buildUrl(path, query);
   const token = accessToken ?? readAuthTokenFromDocument();
 
+  console.log("[backend]", url);
+
   if (requireAuth && !token) {
     throw new Error("Tu sesiÃ³n no es vÃ¡lida. Inicia sesiÃ³n nuevamente.");
   }
@@ -263,6 +265,7 @@ async function apiFetchNullable<T>(path: string): Promise<T | null> {
   let response: Response;
 
   try {
+    console.log("[backend]", url);
     response = await fetch(url, {
       headers: { "Content-Type": "application/json" },
       cache: "no-store",

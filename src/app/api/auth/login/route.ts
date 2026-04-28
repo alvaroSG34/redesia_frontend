@@ -26,7 +26,10 @@ export async function POST(request: Request) {
     );
   }
 
-  const response = await fetch(`${getApiBaseUrl()}/auth/login`, {
+  const backendUrl = `${getApiBaseUrl()}/auth/login`;
+  console.log('[backend]', backendUrl);
+
+  const response = await fetch(backendUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     cache: 'no-store',
