@@ -3,10 +3,12 @@
 import { type FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
+import { AUTH_COOKIE_NAME, getApiBaseUrl } from "@/lib/auth";
 import { ROUTES } from "@/lib/routes";
 
 export function LoginForm() {
   const router = useRouter();
+  const apiBaseUrl = getApiBaseUrl();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
@@ -25,7 +27,7 @@ export function LoginForm() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/api/auth/login", {
+      const response = await fetch(`${apiBaseUrl}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -33,7 +35,6 @@ export function LoginForm() {
         body: JSON.stringify({
           email,
           password,
-          remember,
         }),
       });
 
@@ -41,6 +42,11 @@ export function LoginForm() {
         const message = await readErrorMessage(response);
         setError(message || "No se pudo iniciar sesión.");
         return;
+      }
+
+      const data = (await response.json()) as { accessToken?: string };
+      if (data.accessToken) {
+        document.cookie = `${AUTH_COOKIE_NAME}=${encodeURIComponent(data.accessToken)}; path=/; samesite=lax; max-age=${60 * 60 * 24}`;
       }
 
       setError("");
@@ -128,7 +134,10 @@ export function LoginForm() {
 
 async function readErrorMessage(response: Response): Promise<string> {
   try {
-    const body = (await response.json()) as { message?: string };
+    const body = (await response.json()) as { message?: string | string[] };
+    if (Array.isArray(body.message)) {
+      return body.message.join(", ");
+    }
     return body.message ?? "";
   } catch {
     return "";
