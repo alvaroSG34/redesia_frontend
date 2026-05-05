@@ -88,8 +88,8 @@ export default async function ClientPostsPage({ params }: ClientPostsPageProps) 
       <section className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex flex-wrap gap-3">
           <FilterButton label="Rango de fechas" icon="🗓" />
-          <FilterButton label="Tipo de publicacion" />
-          <FilterButton label="Mas recientes" icon="⇅" />
+                <FilterButton label="Tipo de publicaci\u00f3n" />
+               <FilterButton label="M\u00e1s recientes" icon="⇅" />
         </div>
 
         <div className="inline-flex items-center gap-2 rounded-lg bg-[#f0f4fa] p-1">

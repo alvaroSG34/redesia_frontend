@@ -234,8 +234,8 @@ function SignalCard({
 
 function healthLabel(health: "good" | "warning" | "critical"): string {
   if (health === "good") return "Estable";
-  if (health === "warning") return "Atencion";
-  return "Critico";
+  if (health === "warning") return "Atenci\u00f3n";
+  return "Cr\u00edtico";
 }
 
 function mapLegacyToV2(

@@ -65,7 +65,7 @@ function AccountsOperationalView({
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div>
             <h1 className="text-[38px] font-bold tracking-tight text-[#182033]">Cuentas conectadas</h1>
-            <p className="mt-1 text-[16px] text-[#60718f]">Operacion diaria de integraciones para {data.header.clientName}</p>
+            <p className="mt-1 text-[16px] text-[#60718f]">Operaci\u00f3n diaria de integraciones para {data.header.clientName}</p>
             <p className="text-[13px] text-[#64748b]">
               Estado: <span className={healthClass(data.header.health)}>{healthLabel(data.header.health)}</span>
             </p>
@@ -103,10 +103,10 @@ function AccountsOperationalView({
         <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
           <StatCard label="Conectadas" value={String(data.header.connectedAccounts)} />
           <StatCard label="Total cuentas" value={String(data.header.totalAccounts)} />
-          <StatCard label="Puede sync" value={data.actions.canSync ? "Si" : "No"} />
-          <StatCard label="Puede desconectar" value={data.actions.canDisconnect ? "Si" : "No"} />
+          <StatCard label="Puede sync" value={data.actions.canSync ? "S\u00ed" : "No"} />
+          <StatCard label="Puede desconectar" value={data.actions.canDisconnect ? "S\u00ed" : "No"} />
           <StatCard
-            label="Ultima sync"
+            label="\u00daltima sincronizaci\u00f3n"
             value={data.header.lastSyncAt ? formatDateTime(data.header.lastSyncAt) : "-"}
           />
         </div>
@@ -134,13 +134,13 @@ function AccountsOperationalView({
                     </span>
                   </div>
                   <p className="mt-2 text-[12px] text-[#64748b]">
-                    Ultima sync: {account.lastSyncAt ? formatDateTime(account.lastSyncAt) : "sin sincronizacion"}
+                    \u00daltima sincronizaci\u00f3n: {account.lastSyncAt ? formatDateTime(account.lastSyncAt) : "sin sincronizaci\u00f3n"}
                   </p>
                 </div>
               ))
             ) : (
               <p className="rounded-xl border border-dashed border-[#d1dae7] px-4 py-5 text-[14px] text-[#64748b]">
-                No hay cuentas registradas aun.
+                No hay cuentas registradas a\u00fan.
               </p>
             )}
           </div>
@@ -164,19 +164,19 @@ function AccountsOperationalView({
       </div>
 
       <article className="rounded-2xl border border-[#d1dae7] bg-white p-5">
-        <h2 className="text-[24px] font-semibold text-[#1f2937]">Historial de sincronizacion</h2>
+        <h2 className="text-[24px] font-semibold text-[#1f2937]">Historial de sincronizaci\u00f3n</h2>
         {data.syncHistory.length ? (
           <div className="mt-4 space-y-2">
             {data.syncHistory.map((run) => (
               <div key={run.id} className="rounded-xl border border-[#e2e8f0] px-4 py-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <p className="text-[14px] font-semibold text-[#1f2937]">
-                    {run.trigger === "manual" ? "Manual" : "Cron"} Â· {run.status}
+                    {run.trigger === "manual" ? "Manual" : "Cron"} · {run.status}
                   </p>
                   <p className="text-[12px] text-[#64748b]">{formatDateTime(run.startedAt)}</p>
                 </div>
                 <p className="text-[13px] text-[#475569]">
-                  Posts: {run.postsSynced} Â· Comentarios: {run.commentsSynced} Â· Analizados: {run.analyzedCount}
+                  Posts: {run.postsSynced} · Comentarios: {run.commentsSynced} · Analizados: {run.analyzedCount}
                 </p>
                 {run.error ? <p className="text-[12px] text-[#b91c1c]">Error: {run.error}</p> : null}
               </div>
@@ -184,7 +184,7 @@ function AccountsOperationalView({
           </div>
         ) : (
           <p className="mt-4 rounded-xl border border-dashed border-[#d1dae7] px-4 py-5 text-[14px] text-[#64748b]">
-            Sin ejecuciones de sincronizacion registradas.
+            Sin ejecuciones de sincronizaci\u00f3n registradas.
           </p>
         )}
       </article>
@@ -209,8 +209,8 @@ function healthClass(health: "good" | "warning" | "critical"): string {
 
 function healthLabel(health: "good" | "warning" | "critical"): string {
   if (health === "good") return "Operativo";
-  if (health === "warning") return "Atencion";
-  return "Critico";
+  if (health === "warning") return "Atenci\u00f3n";
+  return "Cr\u00edtico";
 }
 
 function statusClass(status: "Conectado" | "Pendiente" | "Desconectado"): string {

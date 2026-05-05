@@ -237,7 +237,7 @@ async function apiFetch<T>(
   console.log("[backend]", url);
 
   if (requireAuth && !token) {
-    throw new Error("Tu sesiÃ³n no es vÃ¡lida. Inicia sesiÃ³n nuevamente.");
+    throw new Error("Tu sesión no es válida. Inicia sesión nuevamente.");
   }
 
   const response = await fetch(url, {
