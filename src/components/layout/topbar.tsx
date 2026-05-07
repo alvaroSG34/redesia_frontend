@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
+import { clearPersistedAuthToken } from "@/lib/auth";
 import { ROUTES } from "@/lib/routes";
 
 export function Topbar() {
@@ -20,6 +21,7 @@ export function Topbar() {
 
     try {
       await fetch("/api/auth/logout", { method: "POST" });
+      clearPersistedAuthToken();
     } finally {
       router.push(ROUTES.login);
       router.refresh();

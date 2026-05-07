@@ -2,6 +2,7 @@
 
 import {
   analyzePostComments,
+  getCommentsExportReport,
   getClient,
   getPost,
   getPostCommentsAnalysis,
@@ -142,6 +143,99 @@ describe("social analytics service integration", () => {
         });
       }
 
+      if (
+        url.includes("/posts/post-rbs-01/comments/export-report") &&
+        init?.method === "POST"
+      ) {
+        return jsonResponse({
+          header: {
+            postId: "post-rbs-01",
+            clientId: "elbuen-sabor",
+            clientName: "Restaurante El Buen Sabor",
+            postCaption: "Menu de verano",
+            publishedAt: "12 de abril, 2025",
+          },
+          objective: "aumentar reservas",
+          summary: {
+            totalComments: 2,
+            analyzed: 2,
+            positive: 1,
+            negative: 1,
+            neutral: 0,
+            emotionDistribution: [
+              { emotion: "Joy", count: 1, percentage: 50 },
+              { emotion: "Anger", count: 1, percentage: 50 },
+            ],
+          },
+          emotionGroups: [
+            {
+              emotion: "Anger",
+              count: 1,
+              comments: [
+                {
+                  commentId: "c2",
+                  username: "@b",
+                  text: "pending",
+                  likes: 0,
+                  createdAt: "hace 2h",
+                  sentiment: "Negativo",
+                  confidence: 0.78,
+                },
+              ],
+            },
+            {
+              emotion: "Joy",
+              count: 1,
+              comments: [
+                {
+                  commentId: "c1",
+                  username: "@a",
+                  text: "ok",
+                  likes: 1,
+                  createdAt: "hace 1h",
+                  sentiment: "Positivo",
+                  confidence: 0.9,
+                },
+              ],
+            },
+          ],
+          executive: {
+            coveragePct: 100,
+            highlights: [
+              "Cobertura de analisis: 100% de comentarios totales.",
+              "Se detecta friccion relevante: 50% de comentarios negativos.",
+              "Emocion dominante: Anger.",
+            ],
+            nextSteps: [
+              {
+                priority: "Alta",
+                action: "Responder objeciones criticas en menos de 24h",
+                rationale: "La tasa de negatividad sugiere friccion activa.",
+              },
+              {
+                priority: "Media",
+                action: "Fortalecer CTA y propuesta de valor en el copy",
+                rationale: "Aumentar conversion segun objetivo de negocio.",
+              },
+              {
+                priority: "Baja",
+                action: "Monitorear evolucion de emociones por semana",
+                rationale: "Validar impacto de los ajustes.",
+              },
+            ],
+          },
+          recommendationSource: "multimodal_ai",
+          recommendationInputsUsed: {
+            image: true,
+            caption: true,
+            objective: true,
+            comments: true,
+          },
+          recommendation: "Prioriza objeciones por precio y refuerza valor.",
+          generatedAt: "2026-05-06T00:00:00.000Z",
+        });
+      }
+
       return jsonResponse({ error: "not found" }, 404);
     });
   });
@@ -171,6 +265,17 @@ describe("social analytics service integration", () => {
     expect(pendingBefore).toBeGreaterThan(0);
     expect(pendingAfter).toBe(0);
     expect(afterAnalyze.summary.analyzed).toBe(afterAnalyze.summary.total);
+  });
+
+  it("obtiene reporte exportable de comentarios", async () => {
+    const report = await getCommentsExportReport("post-rbs-01", "aumentar reservas");
+
+    expect(report.objective).toBe("aumentar reservas");
+    expect(report.summary.analyzed).toBe(2);
+    expect(report.emotionGroups[0]?.emotion).toBe("Anger");
+    expect(report.executive.coveragePct).toBe(100);
+    expect(report.recommendationSource).toBe("multimodal_ai");
+    expect(report.recommendation.length).toBeGreaterThan(0);
   });
 });
 

@@ -3,7 +3,7 @@
 import { type FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { AUTH_COOKIE_NAME, getApiBaseUrl } from "@/lib/auth";
+import { getApiBaseUrl, persistAuthToken } from "@/lib/auth";
 import { ROUTES } from "@/lib/routes";
 
 export function LoginForm() {
@@ -46,7 +46,7 @@ export function LoginForm() {
 
       const data = (await response.json()) as { accessToken?: string };
       if (data.accessToken) {
-        document.cookie = `${AUTH_COOKIE_NAME}=${encodeURIComponent(data.accessToken)}; path=/; samesite=lax; max-age=${60 * 60 * 24}`;
+        persistAuthToken(data.accessToken);
       }
 
       setError("");

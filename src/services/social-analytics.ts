@@ -4,6 +4,7 @@ import {
   type ClientDashboardSummary,
   type ClientSummaryV2Response,
   type CommentAnalysis,
+  type CommentsExportReportResponse,
   type CommentsWorkbenchV2Response,
   type DashboardRange,
   type DashboardStatsResponse,
@@ -216,6 +217,22 @@ export async function reanalyzeComment(
     `/posts/${postId}/comments/${commentId}/reanalyze`,
     {
       method: "POST",
+      requireAuth: true,
+      accessToken: options?.accessToken,
+    },
+  );
+}
+
+export async function getCommentsExportReport(
+  postId: string,
+  objective: string,
+  options?: { accessToken?: string },
+): Promise<CommentsExportReportResponse> {
+  return apiFetch<CommentsExportReportResponse>(
+    `/posts/${postId}/comments/export-report`,
+    {
+      method: "POST",
+      body: JSON.stringify({ objective }),
       requireAuth: true,
       accessToken: options?.accessToken,
     },
